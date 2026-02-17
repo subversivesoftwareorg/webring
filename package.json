@@ -1,0 +1,33 @@
+{
+  "name": "webring-widget",
+  "version": "0.1.0",
+  "description": "Embeddable webring widget — fetch, merge, and display curated links from JSON Feed sources",
+  "type": "module",
+  "main": "dist/webring-widget.iife.js",
+  "module": "dist/webring-widget.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/webring-widget.esm.js",
+      "require": "./dist/webring-widget.iife.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node esbuild.config.mjs",
+    "typecheck": "tsc --noEmit",
+    "dev": "node esbuild.config.mjs --serve",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0",
+    "happy-dom": "^15.7.0"
+  },
+  "license": "MIT"
+}

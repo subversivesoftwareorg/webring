@@ -1,0 +1,54 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Carol's Design Notes",
+  "home_page_url": "https://carol.example.com",
+  "description": "Design systems, typography, and creative coding",
+  "authors": [
+    {
+      "name": "Carol Nguyen",
+      "url": "https://carol.example.com",
+      "avatar": "https://i.pravatar.cc/40?u=carol"
+    }
+  ],
+  "language": "en",
+  "_webring": {
+    "version": "1.0",
+    "tags": ["design", "creative-coding"]
+  },
+  "items": [
+    {
+      "id": "carol-1",
+      "url": "https://carol.example.com/variable-fonts",
+      "title": "Variable Fonts Are Underrated",
+      "summary": "Most sites still ship 4+ font files. Variable fonts can replace them all with one file and unlock dynamic typography.",
+      "image": "https://picsum.photos/seed/fonts/600/400",
+      "date_published": "2025-12-08T11:00:00Z",
+      "tags": ["typography", "css", "performance"]
+    },
+    {
+      "id": "carol-2",
+      "url": "https://carol.example.com/design-tokens",
+      "title": "Design Tokens: From Figma to CSS Custom Properties",
+      "summary": "A pipeline for syncing design tokens from Figma into your codebase using Style Dictionary and CSS custom properties.",
+      "date_published": "2025-11-22T15:00:00Z",
+      "tags": ["design-systems", "css", "tooling"]
+    },
+    {
+      "id": "carol-3",
+      "url": "https://carol.example.com/generative-svg",
+      "title": "Generative Art with SVG and JavaScript",
+      "summary": "Creating algorithmic artwork using nothing but SVG and vanilla JS. No canvas, no WebGL — just vectors.",
+      "image": "https://picsum.photos/seed/genart/600/400",
+      "date_published": "2025-10-30T09:00:00Z",
+      "tags": ["creative-coding", "svg", "javascript"]
+    },
+    {
+      "id": "carol-4",
+      "url": "https://carol.example.com/color-spaces",
+      "title": "oklch() Changed How I Think About Color",
+      "summary": "Why perceptual color spaces matter for design systems, and how oklch() makes everything easier.",
+      "date_published": "2025-09-25T14:00:00Z",
+      "tags": ["css", "design-systems", "color"]
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webring Widget Demo</title>
+  <link rel="stylesheet" href="demo.css">
+  <script type="module" src="../dist/webring-widget.esm.js"></script>
+</head>
+<body>
+
+  <h1>Webring Widget <small>demo</small></h1>
+  <p class="description">
+    An embeddable web component that fetches, merges, and displays entries from multiple JSON Feed sources.
+  </p>
+
+  <!-- ===== 1. Default ===== -->
+  <section>
+    <h2>Default — three feeds, sorted by date</h2>
+    <webring-widget
+      sources="feeds/alice.json,feeds/bob.json,feeds/carol.json"
+      loading="eager"
+      cache-ttl="0"
+    ></webring-widget>
+  </section>
+
+  <!-- ===== 2. Interactive controls ===== -->
+  <section>
+    <h2>Interactive Controls</h2>
+    <div class="controls">
+      <label>
+        Sort:
+        <select id="ctrl-sort">
+          <option value="date">Date</option>
+          <option value="title">Title</option>
+          <option value="random">Random</option>
+        </select>
+      </label>
+      <label>
+        Order:
+        <select id="ctrl-order">
+          <option value="desc">Desc</option>
+          <option value="asc">Asc</option>
+        </select>
+      </label>
+      <label>
+        Max:
+        <input type="number" id="ctrl-max" value="25" min="1" max="100" style="width:60px">
+      </label>
+      <label>
+        Columns:
+        <select id="ctrl-cols">
+          <option value="0">Auto</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+      <label>
+        Tags:
+        <input type="text" id="ctrl-tags" placeholder="e.g. rust,css" style="width:120px">
+      </label>
+      <button id="ctrl-apply">Apply</button>
+      <button id="ctrl-refresh">Refresh</button>
+    </div>
+
+    <webring-widget
+      id="interactive"
+      sources="feeds/alice.json,feeds/bob.json,feeds/carol.json"
+      loading="eager"
+      cache-ttl="0"
+    ></webring-widget>
+
+    <div class="event-log" id="event-log"></div>
+  </section>
+
+  <!-- ===== 3. Dark theme ===== -->
+  <div class="dark-section">
+    <section>
+      <h2>Dark Theme — CSS custom properties</h2>
+      <p>Same component, different theme — all via CSS custom properties.</p>
+      <webring-widget
+        class="dark-theme"
+        sources="feeds/alice.json,feeds/carol.json"
+        max-items="4"
+        loading="eager"
+        cache-ttl="0"
+        columns="2"
+      ></webring-widget>
+    </section>
+  </div>
+
+  <!-- ===== 4. Tag-filtered ===== -->
+  <section>
+    <h2>Filtered — only "rust" tagged entries</h2>
+    <webring-widget
+      sources="feeds/alice.json,feeds/bob.json,feeds/carol.json"
+      tags="rust"
+      loading="eager"
+      cache-ttl="0"
+    ></webring-widget>
+  </section>
+
+  <!-- ===== 5. Error resilience ===== -->
+  <section>
+    <h2>Error Resilience — one broken feed URL</h2>
+    <p class="description">
+      The widget gracefully handles a broken source and still renders entries from the working feeds.
+    </p>
+    <webring-widget
+      id="error-demo"
+      sources="feeds/alice.json,feeds/DOES_NOT_EXIST.json,feeds/carol.json"
+      loading="eager"
+      cache-ttl="0"
+    ></webring-widget>
+  </section>
+
+  <!-- ===== 6. No images ===== -->
+  <section>
+    <h2>Text Only — images and tags hidden</h2>
+    <webring-widget
+      sources="feeds/bob.json,feeds/carol.json"
+      show-images="false"
+      show-tags="false"
+      loading="eager"
+      cache-ttl="0"
+      columns="2"
+    ></webring-widget>
+  </section>
+
+  <script type="module">
+    // Interactive controls
+    const widget = document.getElementById('interactive');
+    const log = document.getElementById('event-log');
+
+    function logEvent(name, detail) {
+      const line = document.createElement('div');
+      const time = new Date().toLocaleTimeString();
+      line.textContent = `[${time}] ${name}: ${JSON.stringify(detail).slice(0, 120)}`;
+      log.prepend(line);
+    }
+
+    widget.addEventListener('webring:load', (e) => {
+      logEvent('webring:load', {
+        entries: e.detail.entries.length,
+        errors: e.detail.errors.length
+      });
+    });
+
+    widget.addEventListener('webring:error', (e) => {
+      logEvent('webring:error', e.detail);
+    });
+
+    widget.addEventListener('webring:entry-click', (e) => {
+      logEvent('webring:entry-click', { url: e.detail.url });
+    });
+
+    document.getElementById('ctrl-apply').addEventListener('click', () => {
+      widget.setAttribute('sort-by', document.getElementById('ctrl-sort').value);
+      widget.setAttribute('sort-order', document.getElementById('ctrl-order').value);
+      widget.setAttribute('max-items', document.getElementById('ctrl-max').value);
+      widget.setAttribute('columns', document.getElementById('ctrl-cols').value);
+      widget.setAttribute('tags', document.getElementById('ctrl-tags').value);
+    });
+
+    document.getElementById('ctrl-refresh').addEventListener('click', () => {
+      widget.refresh();
+    });
+
+    // Log errors from the error resilience demo
+    document.getElementById('error-demo').addEventListener('webring:error', (e) => {
+      console.log('[error-demo] webring:error:', e.detail);
+    });
+  </script>
+</body>
+</html>
