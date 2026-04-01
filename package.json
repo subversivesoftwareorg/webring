@@ -21,7 +21,8 @@
     "typecheck": "tsc --noEmit",
     "dev": "node esbuild.config.mjs --serve",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "publish:www": "npm run build && mkdir -p ../www/static/js && cp dist/webring-widget.iife.js ../www/static/js/"
   },
   "devDependencies": {
     "esbuild": "^0.24.0",
